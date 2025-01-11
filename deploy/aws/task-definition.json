@@ -1,0 +1,64 @@
+{
+  "family": "chat-system",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
+  "containerDefinitions": [
+    {
+      "name": "backend",
+      "image": "${ECR_REGISTRY}/chat-backend:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "REDIS_URL",
+          "value": "${REDIS_URL}"
+        },
+        {
+          "name": "CORS_ORIGINS",
+          "value": "${CORS_ORIGINS}"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/chat-system",
+          "awslogs-region": "${AWS_REGION}",
+          "awslogs-stream-prefix": "backend"
+        }
+      },
+      "healthCheck": {
+        "command": ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      }
+    },
+    {
+      "name": "frontend",
+      "image": "${ECR_REGISTRY}/chat-frontend:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/chat-system",
+          "awslogs-region": "${AWS_REGION}",
+          "awslogs-stream-prefix": "frontend"
+        }
+      }
+    }
+  ]
+}

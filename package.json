@@ -1,0 +1,20 @@
+{
+  "name": "projects",
+  "version": "1.0.0",
+  "main": "connection_test.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.12",
+    "dotenv": "^16.4.7",
+    "openai": "^4.78.1"
+  }
+}

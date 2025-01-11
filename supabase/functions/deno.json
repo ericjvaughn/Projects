@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window"],
+    "strict": true
+  },
+  "importMap": "./process-message/import_map.json",
+  "tasks": {
+    "test": "deno test --allow-all"
+  }
+}
